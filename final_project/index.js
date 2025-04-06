@@ -10,7 +10,6 @@ app.use(express.json());
 
 app.use("/customer",session({secret:"fingerprint_customer",resave: true, saveUninitialized: true}))
 
-// Middleware to check JWT in session
 app.use("/customer/auth/*", function auth(req, res, next) {
   if (req.session.authorization && req.session.authorization.accessToken) {
     next();
