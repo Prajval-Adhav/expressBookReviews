@@ -10,11 +10,9 @@ app.use(express.json());
 
 app.use("/customer",session({secret:"fingerprint_customer",resave: true, saveUninitialized: true}))
 
-app.use("/customer/auth/*", function auth(req,res,next){
-  // Check if access token is present in the session
-  const accessToken = req.session.accessToken;
-
-  if (accessToken) {
+// Middleware to check JWT in session
+app.use("/customer/auth/*", function auth(req, res, next) {
+  if (req.session.authorization && req.session.authorization.accessToken) {
     next();
   } else {
     res.status(401).json({ message: "Unauthorized: No access token found" });
